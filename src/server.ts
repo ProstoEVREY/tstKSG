@@ -28,6 +28,10 @@ app.register(fastifyCors);
 
 app.register(routes);
 
+app.get("/", (request, reply) => {
+  reply.code(200);
+});
+
 app.setNotFoundHandler(async (request, reply) => {
   reply.code(404).send({ error: "Not Found" });
 });
