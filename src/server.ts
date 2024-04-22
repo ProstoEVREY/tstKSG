@@ -33,7 +33,7 @@ app.register(fastifyCors);
 app.register(routes);
 
 app.get("/", (request, reply) => {
-  reply.code(200).send("Hello from the Fastify");
+  reply.status(200).send("Hello from the Fastify");
 });
 
 app.setNotFoundHandler(async (request, reply) => {
