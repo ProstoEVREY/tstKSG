@@ -30,7 +30,7 @@ const app = (0, fastify_1.default)({ logger: true });
 app.register(cors_1.default);
 app.register(routes_1.routes);
 app.get("/", (request, reply) => {
-    reply.code(200).send("Hello from the Fastify");
+    reply.status(200).send("Hello from the Fastify");
 });
 app.setNotFoundHandler(async (request, reply) => {
     reply.code(404).send({ error: "Not Found" });

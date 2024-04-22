@@ -44,7 +44,7 @@ export const startServer = async () => {
   try {
     await redisClient.connect();
     await PGClient.connect();
-    await app.listen({ port: PORT });
+    await app.listen({ port: PORT, host: "0.0.0.0" });
     const address = app.server.address();
     if (typeof address === "string") {
       app.log.info(`Server listening on ${address}`);
