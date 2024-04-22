@@ -40,10 +40,18 @@ async function deductBalance(userId, amount) {
             throw new Error(`Insufficient balance for user with id ${userId}`);
         }
         const newBalance = currentBalance - amount;
+        const users = await server_1.PGClient.query("SELECT balance FROM users WHERE id = $1", [userId]);
+        const user = users.rows[0] ? users.rows[0] : null;
+        if (!user) {
+            throw new Error(`No such user with this ID exists`);
+        }
         await server_1.PGClient.query("UPDATE users SET balance = $1 WHERE id = $2", [
             newBalance,
             userId,
         ]);
+        const updatedUsers = await server_1.PGClient.query("SELECT balance FROM users WHERE id = $1", [userId]);
+        const updatedUser = updatedUsers.rows[0] ? updatedUsers.rows[0] : null;
+        return { user, updatedUser };
     }
     catch (e) {
         console.error("Error deducting balance:", e);

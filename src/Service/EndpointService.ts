@@ -31,10 +31,7 @@ export function addMinimumTradablePrices(
   return result;
 }
 
-export async function deductBalance(
-  userId: number,
-  amount: number
-): Promise<void> {
+export async function deductBalance(userId: number, amount: number) {
   try {
     const result = await PGClient.query(
       "SELECT balance FROM users WHERE id = $1",
@@ -52,10 +49,30 @@ export async function deductBalance(
     }
     const newBalance = currentBalance - amount;
 
+    const users = await PGClient.query(
+      "SELECT balance FROM users WHERE id = $1",
+      [userId]
+    );
+
+    const user = users.rows[0] ? users.rows[0] : null;
+
+    if (!user) {
+      throw new Error(`No such user with this ID exists`);
+    }
+
     await PGClient.query("UPDATE users SET balance = $1 WHERE id = $2", [
       newBalance,
       userId,
     ]);
+
+    const updatedUsers = await PGClient.query(
+      "SELECT balance FROM users WHERE id = $1",
+      [userId]
+    );
+
+    const updatedUser = updatedUsers.rows[0] ? updatedUsers.rows[0] : null;
+
+    return { user, updatedUser };
   } catch (e) {
     console.error("Error deducting balance:", e);
     throw e;

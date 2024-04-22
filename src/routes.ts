@@ -55,16 +55,16 @@ export async function routes(app: FastifyInstance) {
       const { amount } = request.body;
 
       if (!userId || !amount) {
-        reply.status(400).send({ error: "Bad request" });
+        reply.status(400).send({ error: "Bad request. Apply id and amount" });
       }
       try {
-        await deductBalance(userId, amount);
-        reply.code(200).send({ message: "Balance deducted successfully" });
+        const { user, updatedUser } = await deductBalance(userId, amount);
+        reply.code(200).send({
+          message: `Balance deducted successfully. ${user.balance} to ${updatedUser.balance}`,
+        });
       } catch (error) {
         console.error("Error deducting balance:", error);
-        reply
-          .status(500)
-          .send({ error: "Internal Server Error. Insufficient Balance" });
+        reply.status(500).send({ error: "Internal Server Error:" + error });
       }
     }
   );

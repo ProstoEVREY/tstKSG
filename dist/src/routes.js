@@ -36,17 +36,17 @@ async function routes(app) {
         const userId = parseInt(request.params.id, 10);
         const { amount } = request.body;
         if (!userId || !amount) {
-            reply.status(400).send({ error: "Bad request" });
+            reply.status(400).send({ error: "Bad request. Apply id and amount" });
         }
         try {
-            await (0, EndpointService_1.deductBalance)(userId, amount);
-            reply.code(200).send({ message: "Balance deducted successfully" });
+            const { user, updatedUser } = await (0, EndpointService_1.deductBalance)(userId, amount);
+            reply.code(200).send({
+                message: `Balance deducted successfully. ${user.balance} to ${updatedUser.balance}`,
+            });
         }
         catch (error) {
             console.error("Error deducting balance:", error);
-            reply
-                .status(500)
-                .send({ error: "Internal Server Error. Insufficient Balance" });
+            reply.status(500).send({ error: "Internal Server Error:" + error });
         }
     });
 }
