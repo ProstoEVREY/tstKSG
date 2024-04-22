@@ -17,7 +17,7 @@ export const PGClient = new Client({
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT as string, 10) || 5432,
-  //   ssl: true,
+  ssl: true,
 });
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 3000;
