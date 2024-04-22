@@ -1,0 +1,28 @@
+{
+  "name": "tstksg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "npm run build && npm run start"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@types/node": "^20.12.7",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.26.2",
+    "fastify-cli": "^6.1.1",
+    "pg": "^8.11.5",
+    "redis": "^4.6.13",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.5"
+  }
+}
