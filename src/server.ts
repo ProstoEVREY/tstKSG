@@ -11,6 +11,10 @@ export const redisClient = createClient({
   url: process.env.REDIS_URL,
 });
 
+redisClient.on("error", (err) => {
+  console.error(err);
+});
+
 export const PGClient = new Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,

@@ -14,6 +14,9 @@ dotenv_1.default.config();
 exports.redisClient = (0, redis_1.createClient)({
     url: process.env.REDIS_URL,
 });
+exports.redisClient.on("error", (err) => {
+    console.error(err);
+});
 exports.PGClient = new pg_1.Client({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
